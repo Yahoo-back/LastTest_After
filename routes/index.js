@@ -9,6 +9,8 @@ const tag = require('./tag');
 const link = require('./link');
 const category = require('./category');
 const timeAxis = require('./timeAxis');
+const news = require('./news')
+const newsTag = require('./newsTag');
 
 module.exports = app => {
 	app.post('/login', user.login);
@@ -33,9 +35,21 @@ module.exports = app => {
 	app.post('/getArticleDetail', article.getArticleDetail);
 	app.post('/likeArticle', article.likeArticle);
 
+	app.post('/addNews', news.addNews);
+	app.post('/updateNews', news.updateNews);
+	app.post('/delNews', news.delNews);
+	app.get('/getNewsList', news.getNewsList);
+	app.get('/getNewsListAdmin', news.getNewsListAdmin);
+	app.post('/getNewsDetail', news.getNewsDetail);
+	app.post('/likeNews', news.likeNews);
+
 	app.post('/addTag', tag.addTag);
 	app.post('/delTag', tag.delTag);
 	app.get('/getTagList', tag.getTagList);
+
+	app.post('/addnewsTag', newsTag.addnewsTag);
+	app.post('/delnewsTag', newsTag.delnewsTag);
+	app.get('/getnewsTagList', newsTag.getnewsTagList);
 
 	app.post('/addMessage', message.addMessage);
 	app.post('/addReplyMessage', message.addReplyMessage);
