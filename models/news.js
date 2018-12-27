@@ -36,7 +36,7 @@ const newsSchema = new mongoose.Schema({
 	origin: { type: Number, default: 0 },
 
 	// 新闻标签
-	newstags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'newsTag', required: true }],
+	newsTag: [{ type: mongoose.Schema.Types.ObjectId, ref: 'newsTag', required: true }],
 
 	// comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'newsComment', required: true }],
 

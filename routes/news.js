@@ -153,7 +153,7 @@ exports.getNewsList = (req, res) => {
 				content: 1,
 				desc: 1,
 				img_url: 1,
-				newsTags: 1,
+				newsTag: 1,
 				// category: 1,
 				state: 1,
 				type: 1,
@@ -196,7 +196,7 @@ exports.getNewsList = (req, res) => {
 					else if (newsTag_id) {
 						// 根据标签 id 返回数据
 						result.forEach(item => {
-							if (item.newsTags.indexOf(newsTag_id) > -1) {
+							if (item.newsTag.indexOf(newsTag_id) > -1) {
 								newList.push(item);
 							}
 						});
@@ -261,7 +261,7 @@ exports.getNewsListAdmin = (req, res) => {
 				content: 1,
 				desc: 1,
 				img_url: 1,
-				newsTags: 1,
+				newsTag: 1,
 				// category: 1,
 				state: 1,
 				type: 1,
@@ -292,7 +292,7 @@ exports.getNewsListAdmin = (req, res) => {
 				}
 			})
 				.populate([
-					{ path: 'newsTags', },
+					{ path: 'newsTag', },
 					// { path: 'comments',  },
 					// { path: 'category',  },
 				])
@@ -373,7 +373,7 @@ exports.getNewsDetailByType = (req, res) => {
 		}
 	})
 		.populate([
-			{ path: 'newsTags', select: '-_id' },
+			{ path: 'newsTag', select: '-_id' },
 			// { path: 'category', select: '-_id' },
 			// { path: 'comments', select: '-_id' },
 		])
@@ -411,7 +411,7 @@ exports.getNewsDetail = (req, res) => {
 			}
 		})
 			.populate([
-				{ path: 'newsTags',  },
+				{ path: 'newsTag',  },
 				// { path: 'category',  },
 				// { path: 'comments',  },
 			])
@@ -443,7 +443,7 @@ exports.getNewsDetail = (req, res) => {
 			}
 		})
 			.populate([
-				{ path: 'newsTags',  },
+				{ path: 'newsTag',  },
 				// { path: 'category',  },
 				// { path: 'comments',  },
 			])
