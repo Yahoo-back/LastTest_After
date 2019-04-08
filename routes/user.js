@@ -65,6 +65,31 @@ exports.currentUser = (req, res) => {
 	}
 };
 
+exports.updateUser = (req, res) => {
+	// if (!req.session.userInfo) {
+	// 	responseClient(res, 200, 1, '您还没登录,或者登录信息已过期，请重新登录！');
+	// 	return;
+	// }
+	const { name, phone, email, password, introduce, id } = req.body;
+	User.update(
+		{ _id: id },
+		{
+			name,
+			phone,
+			password,
+			email,
+			introduce,
+		},
+	)
+		.then(result => {
+			responseClient(res, 200, 0, '操作成功', result);
+		})
+		.catch(err => {
+			console.error(err);
+			responseClient(res);
+		});
+};
+
 exports.logout = (req, res) => {
 	if (req.session.userInfo) {
 		req.session.userInfo = null; // 删除session
