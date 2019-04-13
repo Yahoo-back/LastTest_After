@@ -40,6 +40,7 @@ exports.userInfo = (req, res) => {
 
 //后台当前用户
 exports.currentUser = (req, res) => {
+	let id = req.body;
 	let user = req.session.userInfo;
 	if (user) {
 		user.avatar = '';
@@ -70,15 +71,15 @@ exports.updateUser = (req, res) => {
 	// 	responseClient(res, 200, 1, '您还没登录,或者登录信息已过期，请重新登录！');
 	// 	return;
 	// }
-	const { name, phone, email, password, introduce, id } = req.body;
+	const { name, password, email, phone, introduce, id } = req.body;
 	User.update(
 		{ _id: id },
 		{
 			name,
-			phone,
-			password,
 			email,
-			introduce,
+			password,
+			phone,
+			introduce
 		},
 	)
 		.then(result => {
@@ -232,4 +233,76 @@ exports.getUserList = (req, res) => {
 			});
 		}
 	});
+};
+
+
+exports.getUserDetail = (req, res) => {
+	let { id } = req.body;
+	let user = req.session.userInfo;
+	let type = Number(req.body.type) || 1; //文章类型 => 1: 普通文章，2: 简历，3: 管理员介绍
+	console.log('type:', type);
+	if (type === 1) {
+		if (!id) {
+			responseClient(res, 200, 1, '用户不存在 ！');
+			return;
+		}
+		User.findOne({ _id: id }, (Error, data) => {
+			if (Error) {
+				console.error('Error:' + Error);
+				// throw error;
+			} else {
+				data.meta.views = data.meta.views + 1;
+				User.updateOne({ _id: id }, { meta: data.meta })
+					.then(result => {
+						responseClient(res, 200, 0, '操作成功 ！', user);
+					})
+					.catch(err => {
+						console.error('err :', err);
+						throw err;
+					});
+			}
+		})
+			.populate([
+				// { path: 'newsTag',  },
+				// { path: 'category',  },
+				// { path: 'comments',  },
+			])
+			.exec((err, doc) => {
+				// console.log("doc:");          // aikin
+				// console.log("doc.tags:",doc.tags);          // aikin
+				// console.log("doc.category:",doc.category);           // undefined
+			});
+	} else {
+		User.findOne({ type: type }, (Error, data) => {
+			if (Error) {
+				console.log('Error:' + Error);
+				// throw error;
+			} else {
+				if (data) {
+					data.meta.views = data.meta.views + 1;
+					User.updateOne({ type: type }, { meta: data.meta })
+						.then(result => {
+							responseClient(res, 200, 0, '操作成功 ！', user);
+						})
+						.catch(err => {
+							console.error('err :', err);
+							throw err;
+						});
+				} else {
+					responseClient(res, 200, 1, '用户不存在 ！');
+					return;
+				}
+			}
+		})
+			.populate([
+				// { path: 'newsTag',  },
+				// { path: 'category',  },
+				// { path: 'comments',  },
+			])
+			.exec((err, doc) => {
+				// console.log("doc:");          // aikin
+				// console.log("doc.tags:",doc.tags);          // aikin
+				// console.log("doc.category:",doc.category);           // undefined
+			});
+	}
 };

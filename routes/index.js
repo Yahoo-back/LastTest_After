@@ -21,6 +21,7 @@ module.exports = app => {
 	app.get('/currentUser', user.currentUser);
 	app.get('/getUserList', user.getUserList);
 	app.post('/updateUser', user.updateUser);
+	app.post('/getUserDetail',user.getUserDetail);
 
 	app.post('/addComment', comment.addComment);
 	app.post('/addThirdComment', comment.addThirdComment);

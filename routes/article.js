@@ -94,7 +94,7 @@ exports.delArticle = (req, res) => {
 			if (result.n === 1) {
 				responseClient(res, 200, 0, '删除成功!');
 			} else {
-				responseClient(res, 200, 1, '文章不存在');
+				responseClient(res, 200, 1, '菜谱不存在');
 			}
 		})
 		.catch(err => {
@@ -103,7 +103,7 @@ exports.delArticle = (req, res) => {
 		});
 };
 
-// 前台文章列表
+// 前台菜谱列表
 exports.getArticleList = (req, res) => {
 	let keyword = req.query.keyword || null;
 	let state = req.query.state || '';
@@ -211,7 +211,7 @@ exports.getArticleList = (req, res) => {
 	});
 };
 
-// 后台文章列表
+// 后台菜谱列表
 exports.getArticleListAdmin = (req, res) => {
 	let keyword = req.query.keyword || null;
 	let state = req.query.state || '';
@@ -303,7 +303,7 @@ exports.getArticleListAdmin = (req, res) => {
 	});
 };
 
-// 文章点赞
+// 菜谱点赞
 exports.likeArticle = (req, res) => {
 	if (!req.session.userInfo) {
 		responseClient(res, 200, 1, '您还没登录,或者登录信息已过期，请重新登录！');
@@ -347,11 +347,11 @@ exports.likeArticle = (req, res) => {
 		});
 };
 
-// 文章详情
+// 菜谱详情
 exports.getArticleDetailByType = (req, res) => {
 	let { type } = req.body;
 	if (!type) {
-		responseClient(res, 200, 1, '文章不存在 ！');
+		responseClient(res, 200, 1, '菜谱不存在 ！');
 		return;
 	}
 	Article.findOne({ type: type }, (Error, data) => {
@@ -382,14 +382,14 @@ exports.getArticleDetailByType = (req, res) => {
 		});
 };
 
-// 文章详情
+// 菜谱详情
 exports.getArticleDetail = (req, res) => {
 	let { id } = req.body;
-	let type = Number(req.body.type) || 1; //文章类型 => 1: 普通文章，2: 简历，3: 管理员介绍
+	let type = Number(req.body.type) || 1; //菜谱类型 => 1: 普通菜谱，2: 简历，3: 管理员介绍
 	console.log('type:', type);
 	if (type === 1) {
 		if (!id) {
-			responseClient(res, 200, 1, '文章不存在 ！');
+			responseClient(res, 200, 1, '菜谱不存在 ！');
 			return;
 		}
 		Article.findOne({ _id: id }, (Error, data) => {
@@ -435,7 +435,7 @@ exports.getArticleDetail = (req, res) => {
 							throw err;
 						});
 				} else {
-					responseClient(res, 200, 1, '文章不存在 ！');
+					responseClient(res, 200, 1, '菜谱不存在 ！');
 					return;
 				}
 			}

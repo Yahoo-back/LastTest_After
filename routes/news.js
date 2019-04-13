@@ -391,7 +391,7 @@ exports.getNewsDetail = (req, res) => {
 	console.log('type:', type);
 	if (type === 1) {
 		if (!id) {
-			responseClient(res, 200, 1, '文章不存在 ！');
+			responseClient(res, 200, 1, '新闻不存在 ！');
 			return;
 		}
 		News.findOne({ _id: id }, (Error, data) => {
@@ -437,7 +437,7 @@ exports.getNewsDetail = (req, res) => {
 							throw err;
 						});
 				} else {
-					responseClient(res, 200, 1, '文章不存在 ！');
+					responseClient(res, 200, 1, '新闻不存在 ！');
 					return;
 				}
 			}

@@ -159,8 +159,8 @@ exports.getMessageDetail = (req, res) => {
 		responseClient(res, 200, 1, '您还没登录,或者登录信息已过期，请重新登录！');
 		return;
 	}
-	let { id } = req.body;
-	Message.findOne({ _id: id })
+	let { email } = req.body;
+	Message.findOne({ email: email })
 		.then(data => {
 			responseClient(res, 200, 0, '操作成功！', data);
 		})
